@@ -1,0 +1,51 @@
+Pasos para crear el juego de Mario
+
+1. iniciar el proyecto 
+
+2. crear el moñeco que se mueve
+
+3. crear la gravedad
+
+4. crear el movimiento
+
+5. Hacer las plataformas.
+
+6. mover el background cuando te mueves
+
+7. Condicion para ganar
+
+8. Poner bonitas las plataformas
+
+9. Que el fondo vaya a un ritmo distinto para dar sensación de paisaje
+
+10. espacios para caerse
+
+11. Niveles
+
+12. sprites
+
+//TUTORIAL
+
+Lo primero es crear un elemento canvas
+
+en javascript cogemos ese elemento canvas
+
+Para crear el personaje lo que creamos es una clase o un objeto con sus atributos como la posición la velocidad de movimiento la imagen del personaje y demás y luego usamos una instancia de esa clase y podemos jugar modificando sus atributos para moverlo y demás 
+
+La gravedad se consigue con la propiedad velocidad basicamente la velocidad moverá al personaje aumentando su posición en y, eso le hace caer, cuando toque algo le ponemos velocidad 0 y deja de caer, cuando se mueve velocidad en el eje x para desplazarlo, cuando salta velocidad en el eje y negativa, 
+
+para que la gravedad se aplique hay que usar una función que se aplique en bucle al personaje añadiendole ese valor a su posición y, en este caso la función update cambia el valor de i y la llamaremos dentro de ese bucle
+
+Para el movimiento creamos un evento que escuche las teclas y cuando pulsas la de mover le sumas o restas a la velocidad en el eje x o y y la función update le suma esa velocidad a la posición x o y, cuando sueltas la velocidad se vuelve 0 y así se para
+
+las plataformas se crean con una clase que tendrá tamaño variable así luego podemos crearlas instanciando la clase, la colisión compara la posición de personaje y plataforma y altera la velocidad para que si estas sobre una no te caigas
+
+eso es rectangular colision detection que usando las posiciones detecta si colisionan, se compara dentro de la funcion animate que crea el bucle infinito porque las posiciones estarán cambiando
+
+mover el escenario es restarle x cuando vamos adelante y sumarle cuando vamos atrás
+
+para crear varias plataformas usamos un array de objetos siendo ese objeto el objeto plataforma, incluso podemos pasarle la posición por parámetros
+
+Para ganar usamos una variable scrollofset que aumenta segun te mueves y cuando llegas a x punto de la pantalla has ganado, también podría hacerse con un punto y cuando tu x esté donde ese punto chas ganaste
+
+para importar las imagenes hay que cogerlas de github
