@@ -1,11 +1,12 @@
+// import platform from './images/platform.png'
 const canvas = document.querySelector('canvas');
 
 const c = canvas.getContext("2d");
 //getcontext da un objeto que permite manipular el canvas usando metodos como draw para dibujar en él
 
 //para que el canvas ocupe la ventana entera
-canvas.width= window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width= 1024;
+canvas.height = 576;
 
 console.log(c);
 
@@ -50,27 +51,84 @@ class Player {
     }
 
   }
-}//FIN DE CLASE
+}//FIN DE CLASE PLAYER
 
 class Platform {
-  constructor({x,y}){
+  constructor({x,y, image}){
     this.position = {//como x: x e y: y son la misma letra puedes poner en posición solo x e y
       x,
       y
     }
-    this.width=200
-    this.height= 20
+    this.image = image
+    this.width=image.width;
+    this.height= image.height;
+   
   }
   draw(){
-    c.fillStyle = "blue";
-    c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    c.drawImage(this.image, this.position.x, this.position.y)
+    // c.fillStyle = "blue";
+    // c.fillRect(this.position.x, this.position.y, this.width, this.height)
   }
 }
+
+class GenericObject {
+  constructor({x,y, image}){
+    this.position = {//como x: x e y: y son la misma letra puedes poner en posición solo x e y
+      x,
+      y
+    }
+    this.image = image
+    this.width=image.width;
+    this.height= image.height;
+   
+  }
+  draw(){
+    c.drawImage(this.image, this.position.x, this.position.y)
+    // c.fillStyle = "blue";
+    // c.fillRect(this.position.x, this.position.y, this.width, this.height)
+  }
+}
+
+//la imagen que usan las plataformas, usa una función para con los argumentos crear distintas imagenes
+
+function createImage(imageSrc){
+const image = new Image();
+image.src = imageSrc;
+return image
+}
+const platform = './images/platform.png'
+
+const platformImage =createImage(platform)
 
 //instanciamos al jugador, llamamos al metodo draw para pintarlo en el canvas
 const player = new Player();
 
-const platforms =[new Platform({x:200, y:100}), new Platform({x:500, y:200})]
+const platforms =[
+  new Platform({
+    x:-2,
+    y:475,
+    image: platformImage
+  }),
+   new Platform({
+    x:platformImage.width-3,// para que esté detrás de la otra
+    y:475,
+    image: platformImage
+  })
+]
+const background = './images/background.png';
+const hills = './images/hills.png'
+const genericObjects = [
+  new GenericObject({
+    x:0,
+    y:0,
+    image: createImage(background)
+  }),
+  new GenericObject({
+    x:0,
+    y:0,
+    image: createImage(hills)
+  })
+]
 
 const keys = {
   right:{
@@ -84,14 +142,23 @@ player.update();
 
 let scrollOffset=0; //chequeamos la posición del jugador, cuando llegue a x punto decimos que ha ganado
 
+
+//FUNCION ANIMATE------------------------------------------
 function animate (){
   //esto crea una animación repintando el canvas usando la función que le pasar por parametro, le pasamos la propia función animar creando un bucle infinito 
   requestAnimationFrame(animate)
-  c.clearRect(0,0,canvas.width, canvas.height);
-  player.update()//al llamarlo dentro del bucle lo estamos repintando continuamente, tenemos que llamar a clearRect para que borre el cuadrado anterior y pinte el nuevo
+  c.fillStyle = 'white'
+  c.fillRect(0,0,canvas.width, canvas.height);
+
+  genericObjects.forEach(genericObject => {
+    genericObject.draw();
+  })
+  
   platforms.forEach(platform => {
     platform.draw();
   })
+
+  player.update()//al llamarlo dentro del bucle lo estamos repintando continuamente, tenemos que llamar a clearRect para que borre el cuadrado anterior y pinte el nuevo
 
 
   if(keys.right.pressed==true && player.position.x <400){

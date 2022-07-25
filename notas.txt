@@ -48,4 +48,11 @@ para crear varias plataformas usamos un array de objetos siendo ese objeto el ob
 
 Para ganar usamos una variable scrollofset que aumenta segun te mueves y cuando llegas a x punto de la pantalla has ganado, también podría hacerse con un punto y cuando tu x esté donde ese punto chas ganaste
 
-para importar las imagenes hay que cogerlas de github
+para importar las imagenes hay que cogerlas de github o usar la extensión live server, porque js no puede cogerlas del local storage, una vez usado live server creamos una const imagen y le decimos que es nueva imagen, luego en el atributo src ponemos la ubicación
+
+const image = new Image();
+image.src = './images/my-imagen.png'
+
+y ya podremos usarla, hay que ajustar los anchos y altos del colision detector para que sea el ancho y el alto de la imagen
+
+El colision detector funciona con la longitud del objeto plataforma, para que cuadre con la imagen tenemos que decirle al objeto plataforma que tendrá el mismo alto y ancho que la imagen
