@@ -34,7 +34,7 @@ Para crear el personaje lo que creamos es una clase o un objeto con sus atributo
 
 La gravedad se consigue con la propiedad velocidad basicamente la velocidad moverá al personaje aumentando su posición en y, eso le hace caer, cuando toque algo le ponemos velocidad 0 y deja de caer, cuando se mueve velocidad en el eje x para desplazarlo, cuando salta velocidad en el eje y negativa, 
 
-para que la gravedad se aplique hay que usar una función que se aplique en bucle al personaje añadiendole ese valor a su posición y, en este caso la función update cambia el valor de i y la llamaremos dentro de ese bucle
+para que la gravedad se aplique hay que usar una función que se aplique en bucle al personaje añadiendole ese valor a su posición y, en este caso la función update cambia el valor de y y la llamaremos dentro de ese bucle
 
 Para el movimiento creamos un evento que escuche las teclas y cuando pulsas la de mover le sumas o restas a la velocidad en el eje x o y y la función update le suma esa velocidad a la posición x o y, cuando sueltas la velocidad se vuelve 0 y así se para
 
@@ -44,7 +44,7 @@ eso es rectangular colision detection que usando las posiciones detecta si colis
 
 mover el escenario es restarle x cuando vamos adelante y sumarle cuando vamos atrás
 
-para crear varias plataformas usamos un array de objetos siendo ese objeto el objeto plataforma, incluso podemos pasarle la posición por parámetros
+para crear varias plataformas usamos un array de objetos siendo ese objeto el objeto plataforma, incluso podemos pasarle la posición por parámetros y la imagen de la plataforma 
 
 Para ganar usamos una variable scrollofset que aumenta segun te mueves y cuando llegas a x punto de la pantalla has ganado, también podría hacerse con un punto y cuando tu x esté donde ese punto chas ganaste
 
@@ -56,3 +56,38 @@ image.src = './images/my-imagen.png'
 y ya podremos usarla, hay que ajustar los anchos y altos del colision detector para que sea el ancho y el alto de la imagen
 
 El colision detector funciona con la longitud del objeto plataforma, para que cuadre con la imagen tenemos que decirle al objeto plataforma que tendrá el mismo alto y ancho que la imagen
+
+para el background creamos un objeto aparte con posiciones pero sin colision y lo movemos a una velocidad distinta en x para dar sensación de paisaje
+
+para los sprites primero ponemos las imagenes del sprite en la carpeta imagenes o creamos una llamada sprites, asignamos el source a una variable, lo dibujamos en el metodo draw() de la clase player
+
+en draw usamos c.drawImage con el this.image y la posicion x e y, tenemos que añadir una propiedad imagen a la clase player
+
+con los parametros de drawImage ponemos el ancho y alto de la imagen y los parametros 
+
+los parametros que cortan van despues de imagen y antes de posicion, para encontrarlos tienes que ver el ancho y alto de la imagen y luego cuentas posiciones tiene entonces si tienes un sprite de 4 movimientos y mide 100 el primer movimiento será de 0 a 25, el segundo de 25 a 50, el tercero de 50 a 75 y así, el alto será todo el alto del personaje 
+
+tengo 6 figuras y la imagen mide 1386 asi que diviendo cada una son 231 de ancho y 190 de alto(puede que haya que jugar con las cifras del height y width y los parametros hasta que quede donde quieres)
+
+una vez cargada la imagen necesitamos una propiedad en player llamada frames que es la que va a rotar entre cada parte de la imagen para el movimiento
+
+Luego en draw imagen en la parte de cortar el ancho le decimos que es ese ancho MULTIPLICADO por el frame, luego podemos ir aumentando el frame en animate y cortará partes distintas de la imagen y cuando llegue a la ultima animacion recortamos
+
+Entonces en la función update aumentamos los frames y como se estará llamando en animate pues irá cambiando
+
+A veces hay que jugar con el width de player en la zona de colisiones porque si pone al personaje dentro de un cuadrado transparente te caeras cuando llegues a eso, se puede corregir con un width/2 para que sea el centro del cuadrado lo que se toma en cuenta, como todo es ir probando numeros
+
+Para cambiar el sprite cuando está corriendo creamos una propiedad sprites en el objeto, será un objeto con diversas propiedades, dentro de ese objeto creamos propiedades:
+
+this.sprites = {
+  quieto: {
+    imagen a usar,
+    numero de frames, 
+    ancho de cada frame y tal 
+  }
+}
+luego cuando haya un evento podemos cambiar el sprite que se está usando 
+
+Creamos una propiedad current sprite, por defecto es la de stand, pero en los eventos cambiamos esa propiedad. Luego en draw usamos esa propiedad como fuente de la imagen
+
+este sprite mantiene las proporciones por lo que no hay que cambiarlo, pero si hubiera podemos crear una propiedad en cada subObjeto y usarlo para definir el corte
